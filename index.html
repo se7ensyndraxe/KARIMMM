@@ -2751,6 +2751,8 @@
   // Disable bounce-in animations and enable scroll control
   allCards.forEach(card => {
     card.classList.add('scroll-controlled');
+    card.style.opacity = '1';
+    card.style.transform = 'none';
   });
   
   function updateCardParallax() {
@@ -2772,18 +2774,14 @@
       const clampedDistance = Math.max(-1, Math.min(1, normalizedDistance));
       
       // Calculate transforms based on distance
-      // When card is centered (distance = 0): scale 1.15, translateY 0
-      // When above center (distance < 0): scale decreases, translateY negative (up)
-      // When below center (distance > 0): scale decreases, translateY positive (down)
+      const scale = 1 + (1 - Math.abs(clampedDistance)) * 0.25; // 1.0 to 1.25
+      const translateY = -clampedDistance * 80; // -80 to +80px
+      const opacity = 0.8 + (1 - Math.abs(clampedDistance)) * 0.2; // 0.8 to 1.0 (always visible)
       
-      const scale = 1 + (1 - Math.abs(clampedDistance)) * 0.2; // 1.0 to 1.2
-      const translateY = -clampedDistance * 60; // -60 to +60px
-      const opacity = 0.4 + (1 - Math.abs(clampedDistance)) * 0.6; // 0.4 to 1.0
-      
-      card.style.transition = 'none';
+      card.style.transition = 'none !important';
       card.style.transform = `translateY(${translateY}px) scale(${scale})`;
       card.style.opacity = opacity;
-      card.style.pointerEvents = opacity > 0.6 ? 'auto' : 'none';
+      card.style.pointerEvents = 'auto';
     });
   }
 
