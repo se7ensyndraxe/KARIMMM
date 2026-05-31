@@ -466,6 +466,11 @@
       opacity:0; transform:translateY(-80px) scale(.85);
       animation:bounceIn .7s cubic-bezier(.22,1.4,.36,1) forwards;
     }
+    .bounce-in.scroll-controlled {
+      animation: none !important;
+      transform: none !important;
+      opacity: 1 !important;
+    }
     .bounce-in:nth-child(1){animation-delay:.05s;}
     .bounce-in:nth-child(2){animation-delay:.18s;}
     .bounce-in:nth-child(3){animation-delay:.30s;}
@@ -2743,6 +2748,11 @@
   /* ── SCROLL DIRECTION CARD LOAD/UNLOAD EFFECT ── */
   const allCards = document.querySelectorAll('.premium-glass, .heart-divider, .footer');
   
+  // Disable bounce-in animations and enable scroll control
+  allCards.forEach(card => {
+    card.classList.add('scroll-controlled');
+  });
+  
   function updateCardParallax() {
     if (!mc) return;
     
@@ -2762,18 +2772,18 @@
       const clampedDistance = Math.max(-1, Math.min(1, normalizedDistance));
       
       // Calculate transforms based on distance
-      // When card is centered (distance = 0): scale 1.1, translateY 0
-      // When above center (distance < 0): scale decreases, translateY negative
-      // When below center (distance > 0): scale decreases, translateY positive
+      // When card is centered (distance = 0): scale 1.15, translateY 0
+      // When above center (distance < 0): scale decreases, translateY negative (up)
+      // When below center (distance > 0): scale decreases, translateY positive (down)
       
-      const scale = 1 + (1 - Math.abs(clampedDistance)) * 0.15; // 1.0 to 1.15
-      const translateY = -clampedDistance * 40; // -40 to +40px
-      const opacity = 0.5 + (1 - Math.abs(clampedDistance)) * 0.5; // 0.5 to 1.0
+      const scale = 1 + (1 - Math.abs(clampedDistance)) * 0.2; // 1.0 to 1.2
+      const translateY = -clampedDistance * 60; // -60 to +60px
+      const opacity = 0.4 + (1 - Math.abs(clampedDistance)) * 0.6; // 0.4 to 1.0
       
       card.style.transition = 'none';
       card.style.transform = `translateY(${translateY}px) scale(${scale})`;
       card.style.opacity = opacity;
-      card.style.pointerEvents = opacity > 0.7 ? 'auto' : 'none';
+      card.style.pointerEvents = opacity > 0.6 ? 'auto' : 'none';
     });
   }
 
