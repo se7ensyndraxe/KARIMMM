@@ -505,6 +505,7 @@
       contain:layout paint;
     }
     .premium-glass:hover { transform:translateY(-10px) scale(1.02); box-shadow:0 28px 60px rgba(255,77,109,.28); }
+    .premium-glass.scroll-controlled:hover { transform: none !important; box-shadow: none !important; }
     .premium-glass::before {
       content:''; position:absolute; top:-100%; left:-100%; width:300%; height:300%;
       background:repeating-linear-gradient(45deg,transparent,transparent 80px,rgba(255,77,109,.10) 81px,rgba(255,77,109,.02) 85px);
@@ -2766,22 +2767,20 @@
       const rect = card.getBoundingClientRect();
       const cardCenter = rect.top + mc.scrollTop + rect.height / 2;
       
-      // Distance from center of viewport
       const distanceFromCenter = cardCenter - centerViewport;
       const normalizedDistance = distanceFromCenter / (viewportHeight / 2);
-      
-      // Clamp between -1 and 1
       const clampedDistance = Math.max(-1, Math.min(1, normalizedDistance));
       
-      // Calculate transforms based on distance
-      const scale = 1 + (1 - Math.abs(clampedDistance)) * 0.25; // 1.0 to 1.25
-      const translateY = -clampedDistance * 80; // -80 to +80px
-      const opacity = 0.8 + (1 - Math.abs(clampedDistance)) * 0.2; // 0.8 to 1.0 (always visible)
+      // Center card = scale up 1.35, others scale down
+      // Cards move: positive distance (below) = moves down
+      const scale = 1 + (1 - Math.abs(clampedDistance)) * 0.35;
+      const translateY = clampedDistance * 120; // Positive clamp = moves down
+      const opacity = 0.6 + (1 - Math.abs(clampedDistance)) * 0.4;
       
-      card.style.transition = 'none !important';
-      card.style.transform = `translateY(${translateY}px) scale(${scale})`;
-      card.style.opacity = opacity;
-      card.style.pointerEvents = 'auto';
+      card.style.setProperty('transition', 'none', 'important');
+      card.style.setProperty('transform', `translateY(${translateY}px) scale(${scale})`, 'important');
+      card.style.setProperty('opacity', opacity, 'important');
+      card.style.setProperty('pointer-events', 'auto', 'important');
     });
   }
 
