@@ -505,7 +505,7 @@
       contain:layout paint;
     }
     .premium-glass:hover { transform:translateY(-10px) scale(1.02); box-shadow:0 28px 60px rgba(255,77,109,.28); }
-    .premium-glass.scroll-controlled:hover { transform: none !important; box-shadow: none !important; }
+    .premium-glass.scroll-controlled:hover { transform: var(--card-transform) !important; box-shadow: var(--card-shadow) !important; opacity: var(--card-opacity) !important; }
     .premium-glass::before {
       content:''; position:absolute; top:-100%; left:-100%; width:300%; height:300%;
       background:repeating-linear-gradient(45deg,transparent,transparent 80px,rgba(255,77,109,.10) 81px,rgba(255,77,109,.02) 85px);
@@ -2771,16 +2771,21 @@
       const normalizedDistance = distanceFromCenter / (viewportHeight / 2);
       const clampedDistance = Math.max(-1, Math.min(1, normalizedDistance));
       
-      // Center card = scale up 1.35, others scale down
-      // Cards move: positive distance (below) = moves down
-      const scale = 1 + (1 - Math.abs(clampedDistance)) * 0.35;
-      const translateY = clampedDistance * 120; // Positive clamp = moves down
-      const opacity = 0.6 + (1 - Math.abs(clampedDistance)) * 0.4;
+      // Daha soft efekt: daha az büyüme, daha az hareket
+      const scale = 1 + (1 - Math.abs(clampedDistance)) * 0.12;
+      const translateY = clampedDistance * 60;
+      const opacity = 0.7 + (1 - Math.abs(clampedDistance)) * 0.3;
+      const transform = `translateY(${translateY}px) scale(${scale})`;
       
-      card.style.setProperty('transition', 'none', 'important');
-      card.style.setProperty('transform', `translateY(${translateY}px) scale(${scale})`, 'important');
+      card.style.setProperty('transition', 'opacity 0.15s ease, transform 0.15s ease-out', 'important');
+      card.style.setProperty('transform', transform, 'important');
       card.style.setProperty('opacity', opacity, 'important');
       card.style.setProperty('pointer-events', 'auto', 'important');
+      
+      // CSS variables for hover state
+      card.style.setProperty('--card-transform', transform);
+      card.style.setProperty('--card-opacity', opacity);
+      card.style.setProperty('--card-shadow', '0 20px 50px rgba(0,0,0,.35)');
     });
   }
 
