@@ -2054,7 +2054,7 @@
     <button id="volume-button" title="Sesi Kapat/Aç">🔊</button>
     <input id="volume-slider" type="range" min="0" max="100" value="100">
   </div>
-  <div id="volume-hud-wrap"><div id="volume-hud">100%</div></div>
+  <div id="volume-hud-wrap"><div id="volume-hud">%100</div></div>
   <div class="sparkle-heart sparkle-heart-left">💗</div>
   <div class="sparkle-heart sparkle-heart-right">💗</div>
   <div id="music-hud-wrap"><div id="music-hud"></div></div>
@@ -2465,9 +2465,9 @@
 
   function showVolumeHud(v) {
     const wrap=document.getElementById('volume-hud-wrap'), hud=document.getElementById('volume-hud');
-    hud.textContent=v+'%'; wrap.style.opacity='1';
+    hud.textContent='%' + v; wrap.style.opacity='1';
     clearTimeout(volumeHudTimeout);
-    volumeHudTimeout=setTimeout(()=>wrap.style.opacity='0',1000);
+    volumeHudTimeout=setTimeout(()=>wrap.style.opacity='0',1200);
   }
 
   document.getElementById('volume-button').addEventListener('click',()=>{
