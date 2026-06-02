@@ -91,19 +91,21 @@
     }
     #volume-hud {
       position:relative;
-      padding:14px 36px; border-radius:14px;
-      background:rgba(10,2,14,.55);
-      backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
-      color:#fff; font-size:22px; font-weight:700;
-      letter-spacing:.06em; white-space:nowrap;
-      text-shadow:0 0 12px rgba(255,77,109,.9);
+      padding:16px 40px; border-radius:16px;
+      background:linear-gradient(135deg, rgba(255, 20, 80, 0.2), rgba(255, 100, 150, 0.15));
+      backdrop-filter:blur(25px); -webkit-backdrop-filter:blur(25px);
+      color:#ff99bb; font-size:24px; font-weight:900;
+      letter-spacing:.12em; white-space:nowrap;
+      text-shadow:0 0 20px rgba(255,77,109,1), 0 0 40px rgba(255,200,220,0.6);
+      box-shadow: 0 0 30px rgba(255, 77, 109, 0.7), inset 0 1px 15px rgba(255, 255, 255, 0.3);
+      border: 2px solid rgba(255, 150, 180, 0.8);
     }
     #volume-hud::before {
-      content:''; position:absolute; inset:-2px; border-radius:16px;
+      content:''; position:absolute; inset:-3px; border-radius:18px;
       background:linear-gradient(135deg,#ff2e55,#ff85a1,#ff2e55,#c9006b);
       background-size:300% 300%;
       animation:neonShift 2.5s linear infinite; z-index:-1;
-      box-shadow:0 0 18px rgba(255,46,85,.65),0 0 40px rgba(255,46,85,.3);
+      box-shadow:0 0 25px rgba(255,46,85,.8),0 0 50px rgba(255,46,85,.5);
     }
     #volume-hud::after {
       content:''; position:absolute; inset:0; border-radius:14px;
@@ -113,43 +115,89 @@
 
     #music-hud-wrap {
       position: fixed; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);
-      background: linear-gradient(135deg, rgba(255, 20, 80, 0.15), rgba(255, 100, 150, 0.1));
-      border: 2.5px solid rgba(255, 77, 109, 0.8);
-      padding: 20px 40px; border-radius: 30px;
+      background: linear-gradient(135deg, rgba(255, 20, 80, 0.25), rgba(255, 100, 150, 0.15), rgba(255, 20, 80, 0.2));
+      border: 3px solid rgba(255, 150, 200, 0.9);
+      padding: 30px 50px; border-radius: 40px;
       opacity: 0; pointer-events: none; transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-      font-size: 18px; color: rgba(255, 255, 255, 0.95); font-weight: 700;
-      box-shadow: 0 20px 60px rgba(255, 77, 109, 0.5), inset 0 1px 20px rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-      z-index: 2500; letter-spacing: 2px; white-space: nowrap;
-      text-shadow: 0 0 15px rgba(255, 77, 109, 0.6);
+      font-size: 20px; color: rgba(255, 230, 245, 0.98); font-weight: 900;
+      box-shadow: 
+        0 30px 80px rgba(255, 77, 109, 0.7),
+        inset 0 1px 30px rgba(255, 255, 255, 0.4),
+        0 0 60px rgba(255, 77, 109, 0.4),
+        0 0 120px rgba(255, 100, 150, 0.2);
+      backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
+      z-index: 2500; letter-spacing: 3px; white-space: nowrap;
+      text-shadow: 
+        0 0 20px rgba(255, 77, 109, 0.8),
+        0 0 40px rgba(255, 150, 200, 0.5),
+        0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    #music-hud-wrap::before {
+      content: '';
+      position: absolute; inset: -5px; border-radius: 42px;
+      background: linear-gradient(135deg, #ff2e55, #ff85a1, #ff2e55, #c9006b, #ff2e55);
+      background-size: 400% 400%;
+      animation: borderShift 4s linear infinite;
+      z-index: -2;
+      filter: blur(2px);
+    }
+
+    @keyframes borderShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     #music-hud-wrap.show {
       opacity: 1;
-      animation: hudPulse 2s ease-out;
+      animation: hudPulse 2.5s ease-out;
     }
 
     @keyframes hudPulse {
-      0% { transform: translateX(-50%) translateY(-50%) scale(0.9); opacity: 0; }
-      10% { transform: translateX(-50%) translateY(-50%) scale(1.05); opacity: 1; }
-      90% { transform: translateX(-50%) translateY(-50%) scale(1); opacity: 1; }
-      100% { transform: translateX(-50%) translateY(-50%) scale(1); opacity: 0; }
+      0% { 
+        transform: translateX(-50%) translateY(-50%) scale(0.8);
+        opacity: 0;
+      }
+      15% { 
+        transform: translateX(-50%) translateY(-50%) scale(1.1);
+        opacity: 1;
+      }
+      85% { 
+        transform: translateX(-50%) translateY(-50%) scale(1);
+        opacity: 1;
+      }
+      100% { 
+        transform: translateX(-50%) translateY(-50%) scale(1);
+        opacity: 0;
+      }
     }
 
     #music-hud {
       text-align: center;
+      position: relative;
+      z-index: 1;
     }
 
-    #music-hud::before {
-      content: '\266a';
-      color: #ff4d6d;
-      font-size: 24px; margin-right: 12px;
-      animation: musicBeat 0.6s ease-in-out;
+    .music-heart-left, .music-heart-right {
+      display: inline-block;
+      font-size: 20px;
+      margin: 0 12px;
+      animation: heartBeat 0.8s ease-in-out infinite;
     }
 
-    @keyframes musicBeat {
-      0%, 100% { transform: scale(1) rotate(0deg); }
-      50% { transform: scale(1.3) rotate(5deg); }
+    .music-heart-left {
+      animation-delay: 0s;
+    }
+
+    .music-heart-right {
+      animation-delay: 0.2s;
+    }
+
+    @keyframes heartBeat {
+      0%, 100% { transform: scale(1); }
+      25% { transform: scale(1.4); }
+      50% { transform: scale(1); }
     }
 
     /* Parıldayan Kalp Emojileri */
@@ -2486,7 +2534,7 @@
     const track = musicPlaylist[currentMusicIndex];
     const wrap = document.getElementById('music-hud-wrap');
     const hud = document.getElementById('music-hud');
-    hud.textContent = track.title;
+    hud.innerHTML = '<span class="music-heart-left">💗</span><span style="margin: 0 8px;">♪</span> ' + track.title + ' <span style="margin: 0 8px;">♪</span><span class="music-heart-right">💗</span>';
     wrap.classList.add('show');
     clearTimeout(musicHudTimeout);
     musicHudTimeout = setTimeout(() => wrap.classList.remove('show'), 2500);
