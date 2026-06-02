@@ -1668,6 +1668,173 @@
 
     /* ── SCROLL PROGRESS ── */
     #scroll-progress{position:fixed;top:0;left:0;height:3px;z-index:4200;background:linear-gradient(90deg,#ff2e55,#ffb3c6,#ff2e55);background-size:200% 100%;animation:meterShimmer 1.5s linear infinite;transition:width .1s ease;pointer-events:none;box-shadow:0 0 8px rgba(255,77,109,.7);}
+
+    /* ── HAMBURGER MENU BUTTON ── */
+    #hamburger-btn {
+      position: fixed; top: 46px; left: 70px; z-index: 4000;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, .18);
+      background: rgba(255, 255, 255, .08);
+      color: #fff;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: transform .2s ease, background .2s ease, border-color .2s ease;
+    }
+    #hamburger-btn:hover {
+      transform: scale(1.08);
+      background: rgba(255, 77, 109, .22);
+      border-color: rgba(255, 77, 109, .45);
+    }
+    .ham-line {
+      width: 20px; height: 2px;
+      background: #fff;
+      border-radius: 1px;
+      transition: all .3s ease;
+    }
+
+    /* ── MUSIC PANEL ── */
+    #music-panel {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      height: 0; z-index: 3900;
+      background: linear-gradient(to bottom,
+        rgba(255, 77, 109, .12),
+        rgba(232, 160, 191, .08),
+        rgba(201, 0, 107, .06));
+      backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
+      border-radius: 42px 42px 0 0;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-bottom: none;
+      box-shadow: 0 -8px 48px rgba(255, 77, 109, .22),
+                  inset 0 1px 20px rgba(255, 255, 255, .1);
+      overflow: hidden;
+      transition: height .5s cubic-bezier(.22, 1, .36, 1),
+                  opacity .5s ease;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    #music-panel.open {
+      height: 360px;
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      animation: panelSlideUp .5s cubic-bezier(.22, 1, .36, 1);
+    }
+    @keyframes panelSlideUp {
+      from { transform: translateY(360px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .panel-content {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center;
+      height: 100%; width: 100%;
+      padding: 24px 20px;
+      gap: 20px;
+    }
+
+    .music-carousel {
+      display: flex; align-items: center; justify-content: center;
+      gap: 40px; width: 100%; height: 160px;
+      position: relative;
+    }
+
+    .carousel-nav-btn {
+      width: 50px; height: 50px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, .3);
+      background: rgba(255, 255, 255, .08);
+      color: #fff;
+      font-size: 24px;
+      cursor: pointer;
+      transition: all .3s ease;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .carousel-nav-btn:hover {
+      transform: scale(1.12) translateY(-4px);
+      background: rgba(255, 77, 109, .25);
+      border-color: rgba(255, 77, 109, .6);
+      box-shadow: 0 8px 24px rgba(255, 77, 109, .3);
+    }
+
+    .music-images-circle {
+      position: relative;
+      width: 160px; height: 160px;
+      flex-shrink: 0;
+    }
+
+    .music-img {
+      position: absolute;
+      width: 70px; height: 70px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(255, 77, 109, .3), rgba(232, 160, 191, .2));
+      border: 2px solid rgba(255, 255, 255, .15);
+      background-size: cover; background-position: center;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .4);
+      transition: all .6s cubic-bezier(.22, 1, .36, 1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px;
+      overflow: hidden;
+    }
+    .music-img img {
+      width: 100%; height: 100%;
+      object-fit: cover; border-radius: 50%;
+    }
+
+    /* Position images in circle corners */
+    .music-img.pos-top {
+      top: 0; left: 50%; transform: translateX(-50%) scale(0.8); opacity: 0; z-index: 1;
+    }
+    .music-img.pos-top.active {
+      transform: translateX(-50%) scale(1); opacity: 1; z-index: 3; filter: drop-shadow(0 0 16px rgba(255, 77, 109, .5));
+    }
+    .music-img.pos-top-right {
+      top: 15px; right: 0; transform: scale(0.8); opacity: 0.6; z-index: 2;
+    }
+    .music-img.pos-top-right.active {
+      transform: scale(1); opacity: 1; z-index: 2;
+    }
+    .music-img.pos-bottom-right {
+      bottom: 15px; right: 0; transform: scale(0.8); opacity: 0.4; z-index: 1;
+    }
+    .music-img.pos-bottom-right.active {
+      transform: scale(1); opacity: 0.6; z-index: 1;
+    }
+    .music-img.pos-bottom {
+      bottom: 0; left: 50%; transform: translateX(-50%) scale(0.8); opacity: 0; z-index: 1;
+    }
+    .music-img.pos-bottom.active {
+      transform: translateX(-50%) scale(1); opacity: 1; z-index: 2;
+    }
+    .music-img.pos-bottom-left {
+      bottom: 15px; left: 0; transform: scale(0.8); opacity: 0.4; z-index: 1;
+    }
+    .music-img.pos-bottom-left.active {
+      transform: scale(1); opacity: 0.6; z-index: 1;
+    }
+    .music-img.pos-top-left {
+      top: 15px; left: 0; transform: scale(0.8); opacity: 0.6; z-index: 2;
+    }
+    .music-img.pos-top-left.active {
+      transform: scale(1); opacity: 1; z-index: 2;
+    }
+
+    .panel-info {
+      text-align: center; color: rgba(255, 255, 255, .8);
+      font-size: 13px; letter-spacing: .04em;
+    }
+    .panel-info .song-idx {
+      color: rgba(255, 200, 220, .9);
+      font-weight: 600;
+      animation: pulse 1s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .7; }
+    }
   </style>
 </head>
 <body>
@@ -1734,6 +1901,27 @@
     <input id="volume-slider" type="range" min="0" max="100" value="100">
   </div>
   <div id="volume-hud-wrap"><div id="volume-hud">100%</div></div>
+
+  <!-- HAMBURGER MENU FOR MUSIC -->
+  <button id="hamburger-btn" title="Müzik Paneli">
+    <div class="ham-line"></div>
+    <div class="ham-line"></div>
+    <div class="ham-line"></div>
+  </button>
+
+  <!-- MUSIC PANEL -->
+  <div id="music-panel">
+    <div class="panel-content">
+      <div class="music-carousel">
+        <button class="carousel-nav-btn" id="music-prev" title="Önceki Müzik">←</button>
+        <div class="music-images-circle" id="music-circle"></div>
+        <button class="carousel-nav-btn" id="music-next" title="Sonraki Müzik">→</button>
+      </div>
+      <div class="panel-info">
+        Müzik <span class="song-idx" id="song-counter">1</span> / <span id="total-songs">10</span>
+      </div>
+    </div>
+  </div>
 
   <!-- HAKKIMIZDA & FOTOGRAF BUTTONS -->
   <button id="hakkimizda-btn" onclick="openHakkimizda()">Hakkımızda 🤍</button>
@@ -2069,6 +2257,21 @@
 
   var player, volumeLevel=100, volumeHudTimeout, lastTrail=0;
   var entranceEffectsActive=true, entranceHeartTimer, entranceStarTimer, heartRainTimer;
+  
+  /* Music playlist */
+  var musicPlaylist = [
+    'fe9DB7AKTQo',
+    'nQVaRFP-ppw',
+    'DI-6Sy3AIyc',
+    '9L4K-4rEjsI',
+    'NrOy34oMH_E',
+    'OxmNe1i6AvQ',
+    'uZ0e9Wp3uNo',
+    'mzwuWo9wkoU',
+    'sY7-u6wCcW0',
+    'YHkGVaDgLVg'
+  ];
+  var currentMusicIndex = 0;
 
   function clearChildren(el) {
     if (el) el.replaceChildren();
@@ -2086,10 +2289,11 @@
 
   function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
-      height:'0', width:'0', videoId:'fe9DB7AKTQo',
+      height:'0', width:'0', videoId:musicPlaylist[currentMusicIndex],
       playerVars:{autoplay:0,controls:0,disablekb:1,fs:0,rel:0,modestbranding:1,playsinline:1,enablejsapi:1},
       events:{onReady:e=>e.target.setVolume(volumeLevel)}
     });
+    initMusicPanel();
   }
 
   function showVolumeHud(v) {
@@ -2114,6 +2318,86 @@
     else{player.unMute();document.getElementById('volume-button').textContent='🔊';}
     showVolumeHud(volumeLevel);
   });
+
+  /* ── MUSIC PANEL FUNCTIONS ── */
+  function initMusicPanel() {
+    const circleEl = document.getElementById('music-circle');
+    const totalEl = document.getElementById('total-songs');
+    totalEl.textContent = musicPlaylist.length;
+    
+    // Create music image elements
+    const positions = ['pos-top', 'pos-top-right', 'pos-bottom-right', 'pos-bottom', 'pos-bottom-left', 'pos-top-left'];
+    for (let i = 0; i < 6; i++) {
+      const img = document.createElement('div');
+      img.className = `music-img ${positions[i]}`;
+      img.dataset.index = i;
+      circleEl.appendChild(img);
+    }
+    updateMusicCircle();
+  }
+
+  function updateMusicCircle() {
+    const circle = document.getElementById('music-circle');
+    const counter = document.getElementById('song-counter');
+    const imgs = circle.querySelectorAll('.music-img');
+    const positions = ['pos-top', 'pos-top-right', 'pos-bottom-right', 'pos-bottom', 'pos-bottom-left', 'pos-top-left'];
+    
+    counter.textContent = currentMusicIndex + 1;
+    
+    // Calculate which images to show
+    let imgIdx = 0;
+    for (let offset = -2; offset <= 3; offset++) {
+      if (offset === 0) continue; // Skip center (current track)
+      
+      let playlistIdx = (currentMusicIndex + offset + musicPlaylist.length) % musicPlaylist.length;
+      let posIdx = (offset + 2 > 2) ? offset + 2 : offset + 2;
+      if (offset > 0) posIdx = offset + 1;
+      
+      const img = imgs[imgIdx];
+      if (img) {
+        // Remove all position classes
+        positions.forEach(p => img.classList.remove(p));
+        
+        // Set current position
+        const pos = positions[imgIdx];
+        img.classList.add(pos);
+        
+        // Set active status (brightest)
+        if (offset === -1 || offset === 1) {
+          img.classList.add('active');
+        } else {
+          img.classList.remove('active');
+        }
+        
+        // Update image content (using first letter or emoji)
+        img.innerHTML = getVideoThumbnail(playlistIdx);
+      }
+      imgIdx++;
+    }
+  }
+
+  function getVideoThumbnail(index) {
+    const videos = ['🎵', '🎶', '🎸', '🎹', '🎤', '🎧', '🎼', '🎺', '🎻', '🥁'];
+    return videos[index % videos.length];
+  }
+
+  function changeMusicTrack(direction) {
+    currentMusicIndex = (currentMusicIndex + direction + musicPlaylist.length) % musicPlaylist.length;
+    if (player && typeof player.cueVideoById === 'function') {
+      player.cueVideoById(musicPlaylist[currentMusicIndex]);
+    }
+    updateMusicCircle();
+  }
+
+  // Hamburger menu toggle
+  document.getElementById('hamburger-btn').addEventListener('click', () => {
+    const panel = document.getElementById('music-panel');
+    panel.classList.toggle('open');
+  });
+
+  // Music navigation
+  document.getElementById('music-prev').addEventListener('click', () => changeMusicTrack(-1));
+  document.getElementById('music-next').addEventListener('click', () => changeMusicTrack(1));
 
   /* ── Entrance floating hearts ── */
   (function(){
@@ -2782,16 +3066,19 @@
       card.style.setProperty('opacity', opacity, 'important');
       card.style.setProperty('pointer-events', 'auto', 'important');
       
+      // CSS variables for hover state
       card.style.setProperty('--card-transform', transform);
       card.style.setProperty('--card-opacity', opacity);
       card.style.setProperty('--card-shadow', '0 20px 50px rgba(0,0,0,.35)');
     });
   }
 
+  // Attach scroll listener to main-content
   if (mc) {
     mc.addEventListener('scroll', updateCardParallax, { passive: true });
   }
 
+  // Initial check when main content becomes visible
   const scrollObserver = new MutationObserver(() => {
     if (mainEl.classList.contains('show')) {
       setTimeout(() => {
