@@ -59,7 +59,7 @@
 
     /* ── VOLUME CONTROL ── */
     #volume-control {
-      position:fixed; top:46px; left:16px; z-index:2000;
+      position:fixed; top:46px; left:16px; z-index:4000;
       display:inline-flex; align-items:center; gap:10px;
       padding:8px 12px; border-radius:999px;
       background:rgba(255,255,255,.08);
@@ -1671,7 +1671,7 @@
 
     /* ── HAMBURGER MENU BUTTON ── */
     #hamburger-btn {
-      position: fixed; top: 46px; left: 70px; z-index: 2000;
+      position: fixed; top: 96px; left: 16px; z-index: 1900;
       width: 40px; height: 40px;
       border-radius: 50%;
       border: 1px solid rgba(255, 255, 255, .18);
@@ -1696,7 +1696,7 @@
 
     /* ── MUSIC PANEL ── */
     #music-panel {
-      position: fixed; top: 96px; left: 16px;
+      position: fixed; top: 152px; left: 16px;
       width: 320px; z-index: 2100;
       background: linear-gradient(135deg, rgba(10, 2, 14, .92), rgba(30, 5, 22, .88));
       backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
@@ -2316,11 +2316,11 @@
 
   function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
-      height:'0', width:'0', videoId:musicPlaylist[currentMusicIndex],
+      height:'0', width:'0', videoId:musicPlaylist[currentMusicIndex].id,
       playerVars:{autoplay:0,controls:0,disablekb:1,fs:0,rel:0,modestbranding:1,playsinline:1,enablejsapi:1},
       events:{onReady:e=>e.target.setVolume(volumeLevel)}
     });
-    initMusicPanel();
+    setTimeout(initMusicPanel, 500);
   }
 
   function showVolumeHud(v) {
@@ -2348,8 +2348,8 @@
 
   /* ── MUSIC PANEL FUNCTIONS ── */
   function initMusicPanel() {
-    updateMusicPanel();
     createMiniCarousel();
+    updateMusicPanel();
   }
 
   function createMiniCarousel() {
@@ -2387,16 +2387,18 @@
 
   function selectTrack(index) {
     currentMusicIndex = index;
-    if (player && typeof player.cueVideoById === 'function') {
-      player.cueVideoById(musicPlaylist[currentMusicIndex].id);
+    if (player && typeof player.loadVideoById === 'function') {
+      player.loadVideoById(musicPlaylist[currentMusicIndex].id);
+      player.playVideo();
     }
     updateMusicPanel();
   }
 
   function changeMusicTrack(direction) {
     currentMusicIndex = (currentMusicIndex + direction + musicPlaylist.length) % musicPlaylist.length;
-    if (player && typeof player.cueVideoById === 'function') {
-      player.cueVideoById(musicPlaylist[currentMusicIndex].id);
+    if (player && typeof player.loadVideoById === 'function') {
+      player.loadVideoById(musicPlaylist[currentMusicIndex].id);
+      player.playVideo();
     }
     updateMusicPanel();
   }
