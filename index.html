@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
@@ -110,6 +110,78 @@
       background:rgba(10,2,14,.55);
       backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); z-index:-1;
     }
+
+    #music-hud-wrap {
+      position: fixed; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);
+      background: linear-gradient(135deg, rgba(255, 20, 80, 0.15), rgba(255, 100, 150, 0.1));
+      border: 2.5px solid rgba(255, 77, 109, 0.8);
+      padding: 20px 40px; border-radius: 30px;
+      opacity: 0; pointer-events: none; transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      font-size: 18px; color: rgba(255, 255, 255, 0.95); font-weight: 700;
+      box-shadow: 0 20px 60px rgba(255, 77, 109, 0.5), inset 0 1px 20px rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+      z-index: 2500; letter-spacing: 2px; white-space: nowrap;
+      text-shadow: 0 0 15px rgba(255, 77, 109, 0.6);
+    }
+
+    #music-hud-wrap.show {
+      opacity: 1;
+      animation: hudPulse 2s ease-out;
+    }
+
+    @keyframes hudPulse {
+      0% { transform: translateX(-50%) translateY(-50%) scale(0.9); opacity: 0; }
+      10% { transform: translateX(-50%) translateY(-50%) scale(1.05); opacity: 1; }
+      90% { transform: translateX(-50%) translateY(-50%) scale(1); opacity: 1; }
+      100% { transform: translateX(-50%) translateY(-50%) scale(1); opacity: 0; }
+    }
+
+    #music-hud {
+      text-align: center;
+    }
+
+    #music-hud::before {
+      content: '\266a';
+      color: #ff4d6d;
+      font-size: 24px; margin-right: 12px;
+      animation: musicBeat 0.6s ease-in-out;
+    }
+
+    @keyframes musicBeat {
+      0%, 100% { transform: scale(1) rotate(0deg); }
+      50% { transform: scale(1.3) rotate(5deg); }
+    }
+
+    /* Parıldayan Kalp Emojileri */
+    .sparkle-heart {
+      position: fixed; z-index: 2400;
+      font-size: 32px; font-weight: 900;
+      animation: sparkleFloat 3s ease-in-out infinite;
+    }
+
+    .sparkle-heart-left {
+      top: 30px; left: 30px;
+      animation-delay: 0s;
+    }
+
+    .sparkle-heart-right {
+      top: 30px; right: 30px;
+      animation-delay: 0.5s;
+    }
+
+    @keyframes sparkleFloat {
+      0%, 100% { 
+        opacity: 0.6; 
+        transform: scale(1) translateY(0);
+        filter: drop-shadow(0 0 10px rgba(255, 77, 109, 0.3));
+      }
+      50% { 
+        opacity: 1; 
+        transform: scale(1.2) translateY(-10px);
+        filter: drop-shadow(0 0 25px rgba(255, 77, 109, 0.8));
+      }
+    }
+
     @keyframes neonShift {
       0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;}
     }
@@ -1935,6 +2007,9 @@
     <input id="volume-slider" type="range" min="0" max="100" value="100">
   </div>
   <div id="volume-hud-wrap"><div id="volume-hud">100%</div></div>
+  <div class="sparkle-heart sparkle-heart-left">💗</div>
+  <div class="sparkle-heart sparkle-heart-right">💗</div>
+  <div id="music-hud-wrap"><div id="music-hud"></div></div>
 
   <!-- HAMBURGER MENU FOR MUSIC -->
   <button id="hamburger-btn" title="Müzik Paneli">
@@ -2303,17 +2378,17 @@
   
   /* Music playlist with titles */
   var musicPlaylist = [
-    {id: 'fe9DB7AKTQo', title: 'Senin İçin'},
-    {id: 'nQVaRFP-ppw', title: 'Şarkı 2'},
-    {id: 'DI-6Sy3AIyc', title: 'Şarkı 3'},
-    {id: '9L4K-4rEjsI', title: 'Şarkı 4'},
-    {id: 'NrOy34oMH_E', title: 'Şarkı 5'},
-    {id: 'OxmNe1i6AvQ', title: 'Şarkı 6'},
-    {id: 'uZ0e9Wp3uNo', title: 'Şarkı 7'},
-    {id: 'mzwuWo9wkoU', title: 'Şarkı 8'},
-    {id: 'sY7-u6wCcW0', title: 'Şarkı 9'},
-    {id: 'YHkGVaDgLVg', title: 'Şarkı 10'},
-    {id: 'W-hwLlqwiKI', title: 'Şarkı 11'}
+    {id: 'fe9DB7AKTQo', title: 'How Deep Is Your Love - Live'},
+    {id: 'nQVaRFP-ppw', title: 'Loveli Lori & OVG! - Love For You (Official Audio)'},
+    {id: 'DI-6Sy3AIyc', title: 'Love For You (Hoodtrap)'},
+    {id: '9L4K-4rEjsI', title: 'Me & You'},
+    {id: 'NrOy34oMH_E', title: 'Me And U'},
+    {id: 'OxmNe1i6AvQ', title: 'I\'m Yours, You\'re Mine'},
+    {id: 'uZ0e9Wp3uNo', title: 'Eyes Don\'t Lie'},
+    {id: 'mzwuWo9wkoU', title: 'New Jeans (Jersey Club - Slowed Down) Extended'},
+    {id: 'sY7-u6wCcW0', title: 'CHIHIRO - девочка хентай (alisherzak Remix)'},
+    {id: 'YHkGVaDgLVg', title: 'luv <3'},
+    {id: 'W-hwLlqwiKI', title: 'Люби меня (feat. Sимптом)'}
   ];
   var currentMusicIndex = 0;
 
@@ -2407,6 +2482,18 @@
     });
   }
 
+  function showMusicHud() {
+    const track = musicPlaylist[currentMusicIndex];
+    const wrap = document.getElementById('music-hud-wrap');
+    const hud = document.getElementById('music-hud');
+    hud.textContent = track.title;
+    wrap.classList.add('show');
+    clearTimeout(musicHudTimeout);
+    musicHudTimeout = setTimeout(() => wrap.classList.remove('show'), 2500);
+  }
+
+  var musicHudTimeout;
+
   function selectTrack(index) {
     currentMusicIndex = index;
     if (player && typeof player.loadVideoById === 'function') {
@@ -2414,6 +2501,7 @@
       player.playVideo();
     }
     updateMusicPanel();
+    showMusicHud();
   }
 
   function changeMusicTrack(direction) {
@@ -2423,6 +2511,7 @@
       player.playVideo();
     }
     updateMusicPanel();
+    showMusicHud();
   }
 
   // Hamburger menu toggle
