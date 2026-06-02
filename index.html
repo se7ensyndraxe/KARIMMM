@@ -16,6 +16,8 @@
       overflow: hidden;
       color: white;
       cursor: none;
+      user-select: none;
+      -webkit-user-select: none;
     }
     body::after {
       content: '';
@@ -33,6 +35,8 @@
       display: flex; align-items: center; justify-content: center;
       transform: translate(-50%,-50%);
       animation: cursorPulse 1s ease-in-out infinite;
+      opacity: 1;
+      visibility: visible;
     }
     #custom-cursor::before {
       content:"💗"; font-size:28px;
@@ -371,6 +375,7 @@
       background:#000;
       transition:opacity .75s cubic-bezier(.22,1,.36,1), visibility .75s ease;
       overflow:hidden;
+      pointer-events: auto;
     }
     #entrance.active { opacity:0; visibility:hidden; pointer-events:none; }
     
@@ -402,7 +407,7 @@
       10%{opacity:.55;} 90%{opacity:.2;}
       100%{transform:translateY(-110vh) scale(1.1);opacity:0;}
     }
-    .btn-ring { position:relative; display:flex; align-items:center; justify-content:center; z-index:3; }
+    .btn-ring { position:relative; display:flex; align-items:center; justify-content:center; z-index:3; pointer-events: auto; }
     .btn-ring::before,.btn-ring::after {
       content:''; position:absolute; border-radius:999px;
       border:2px solid rgba(255,77,109,.45);
@@ -430,6 +435,7 @@
       font-weight:700; animation:btnPulse 2.2s infinite;
       letter-spacing:.03em;
       transition:transform .2s ease, box-shadow .2s ease;
+      pointer-events: auto;
     }
     .pink-btn:hover { transform:translateY(-3px); box-shadow:0 28px 65px rgba(255,77,109,.5); }
     .pink-btn:active {
@@ -1751,7 +1757,6 @@
       position: relative;
       animation: trackImageEntry .6s cubic-bezier(.22, 1, .36, 1);
     }
-    }
     .track-image img {
       width: 100%; height: 100%; object-fit: cover;
     }
@@ -1850,7 +1855,7 @@
       flex: 1; font-size: 9px; color: rgba(255, 255, 255, .75);
       padding: 5px; text-align: center; word-break: break-word;
       overflow: hidden; text-overflow: ellipsis; display: -webkit-box;
-      -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical;
       line-height: 1.2;
     }
     .mini-track:hover {
@@ -2379,7 +2384,6 @@
       `;
       mini.addEventListener('click', () => selectTrack(idx));
       carousel.appendChild(mini);
-    });
     });
   }
 
